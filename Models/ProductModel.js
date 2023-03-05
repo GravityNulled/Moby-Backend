@@ -4,6 +4,7 @@ const productSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+    unique: true,
   },
   category: {
     type: String,
@@ -15,7 +16,7 @@ const productSchema = new mongoose.Schema({
   },
   model: {
     type: String,
-    required: true, //iPhone X
+    required: true, //X
   },
   price: {
     type: Number,

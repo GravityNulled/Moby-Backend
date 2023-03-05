@@ -5,10 +5,14 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const cors = require("cors");
 
+const userRoute = require("./Routes/UserRoute");
+const productRoute = require("./Routes/ProductRoute");
+
 const app = express();
 
 app.use(cors());
 app.use(helmet());
+app.use(express.json());
 app.use(morgan("dev"));
 dotenv.config();
 
@@ -21,3 +25,6 @@ mongoose
     })
   )
   .catch((error) => console.log(error));
+
+app.use("/api/users", userRoute);
+app.use("/api/products", productRoute);
