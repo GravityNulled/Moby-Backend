@@ -7,6 +7,7 @@ const cors = require("cors");
 
 const userRoute = require("./Routes/UserRoute");
 const productRoute = require("./Routes/ProductRoute");
+const authRoute = require("./Routes/AuthRoute");
 
 const app = express();
 
@@ -28,3 +29,4 @@ mongoose
 
 app.use("/api/users", userRoute);
 app.use("/api/products", productRoute);
+app.use("/api/auth", authRoute);
