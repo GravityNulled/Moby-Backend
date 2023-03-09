@@ -21,7 +21,7 @@ const productSchema = new mongoose.Schema({
   condition: {
     type: String,
     required: true,
-    default: "Referbished",
+    default: "Refurbished",
   },
   company: {
     type: String,

@@ -1,4 +1,5 @@
 const User = require("../Models/UserModel");
+const jwt = require("jsonwebtoken");
 const router = require("express").Router();
 var CryptoJS = require("crypto-js");
 
@@ -21,10 +22,11 @@ router.post("/login", async (req, res) => {
   const { password } = user;
   var decrypted = CryptoJS.AES.decrypt(password, process.env.CRYPTO);
   const plain = decrypted.toString(CryptoJS.enc.Utf8);
-
   if (req.body.password !== plain) {
     return res.status(401).send("Email or Password is incorrect");
   }
+  const token = jwt.sign(user.toString(), process.env.JWT_SECRET);
+  console.log(token);
   return res.status(200).send("Success Login");
 });
 module.exports = router;
