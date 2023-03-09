@@ -10,6 +10,19 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true, //iPhone
   },
+  desc: {
+    type: String,
+    required: true, //32 GB Black
+  },
+  color: {
+    type: String,
+    required: true, //Black
+  },
+  condition: {
+    type: String,
+    required: true,
+    default: "Referbished",
+  },
   company: {
     type: String,
     required: true, //Apple
