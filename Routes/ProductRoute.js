@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Product = require("../Models/ProductModel");
+const { verifyToken, verifyAdmin } = require("../Utils/VerifyJwt");
 
 router.post("/create", async (req, res) => {
   const product = req.body;
@@ -7,13 +8,12 @@ router.post("/create", async (req, res) => {
   res.status(201).send(newProduct);
 });
 
-router.get("/find/:id", async (req, res) => {
-  productId = req.params.id;
-  const product = await Product.findById(productId);
+router.get("/find/:id", verifyAdmin, async (req, res) => {
+  const product = await Product.findById(req.params.id);
   res.status(200).json(product);
 });
 
-router.put("/update/:id", async (req, res) => {
+router.put("/update/:id", verifyAdmin, async (req, res) => {
   const product = await Product.findByIdAndUpdate(
     req.params.id,
     {

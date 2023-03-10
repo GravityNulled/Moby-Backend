@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const User = require("../Models/UserModel");
+const { verifyTokenAuth } = require("../Utils/VerifyJwt");
 
 router.post("/create", async (req, res) => {
   const user = req.body;
@@ -7,13 +8,13 @@ router.post("/create", async (req, res) => {
   res.status(201).send(newUser);
 });
 
-router.get("/find/:id", async (req, res) => {
+router.get("/find/:id", verifyTokenAuth, async (req, res) => {
   userid = req.params.id;
   const user = await User.findById(userid);
   res.status(200).json(user);
 });
 
-router.put("/update/:id", async (req, res) => {
+router.put("/update/:id", verifyTokenAuth, async (req, res) => {
   const user = await User.findByIdAndUpdate(
     req.params.id,
     {
@@ -24,7 +25,7 @@ router.put("/update/:id", async (req, res) => {
   res.status(200).send(user);
 });
 
-router.delete("/delete/:id", async (req, res) => {
+router.delete("/delete/:id", verifyTokenAuth, async (req, res) => {
   const user = await User.findByIdAndDelete(req.params.id);
   res.send("User Deleted");
 });

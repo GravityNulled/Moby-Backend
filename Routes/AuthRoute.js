@@ -19,14 +19,19 @@ router.post("/login", async (req, res) => {
   const email = req.body.email;
   const user = await User.findOne({ email });
   if (!user) return res.status(400).send("Email or Password is incorrect");
-  const { password } = user;
+  const { password, ...info } = user._doc;
   var decrypted = CryptoJS.AES.decrypt(password, process.env.CRYPTO);
   const plain = decrypted.toString(CryptoJS.enc.Utf8);
   if (req.body.password !== plain) {
     return res.status(401).send("Email or Password is incorrect");
   }
-  const token = jwt.sign(user.toString(), process.env.JWT_SECRET);
-  console.log(token);
-  return res.status(200).send("Success Login");
+  const token = jwt.sign(
+    {
+      id: user._id,
+      isAdmin: user.isAdmin,
+    },
+    process.env.JWT_SECRET
+  );
+  return res.status(200).send({ info, token });
 });
 module.exports = router;
